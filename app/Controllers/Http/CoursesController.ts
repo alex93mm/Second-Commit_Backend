@@ -9,7 +9,7 @@ export default class CoursesController {
     return response.ok({ data: courses })
   }
 
-  public async store({ request, auth, response }: HttpContextContract) {
+  public async store({ request, response }: HttpContextContract) {
     const validatedData = await request.validate(CourseValidator)
 
     const course = await Course.create(validatedData)

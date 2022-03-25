@@ -6,10 +6,11 @@ import RegisterValidator from 'App/Validators/RegisterValidator'
 export default class AuthController {
   public async register({ request, auth, response }: HttpContextContract) {
     const validatedData = await request.validate(RegisterValidator)
+
     try {
       const user = await User.create(validatedData)
       const token = await auth.login(user)
-      return token
+      return response.ok(token)
     } catch (error) {
       return response.badRequest({ message: 'Email ya registrado' })
     }
@@ -26,7 +27,7 @@ export default class AuthController {
       if (passwordVerified) {
         const token = await auth.login(user)
 
-        return response.ok({ data: token })
+        return response.ok(token)
       }
       return response.badRequest({ message: 'Contrasena incorrecta' })
     }
